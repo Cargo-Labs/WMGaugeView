@@ -83,9 +83,15 @@
     
     _needleWidth = 0.035;
     _needleHeight = 0.34;
+    _needleFillColor = [UIColor colorWithCGColor:CGRGB(255, 104, 97)];
+    _needleStrokeColor = [UIColor colorWithCGColor:CGRGB(255, 104, 97)];
+    _showNeedleShadow = YES;
+
     _needleScrewRadius = 0.04;
+    _needleScrewColor = [UIColor colorWithCGColor:CGRGB(68, 84, 105)];
     _needleStyle = WMGaugeViewNeedleStyle3D;
     _needleScrewStyle = WMGaugeViewNeedleScrewStyleGradient;
+    _showNeedleScrewShadow = YES;
     
     _scalePosition = 0.025;
     _scaleStartAngle = 30.0;
@@ -475,10 +481,12 @@
             [rootNeedleLayer addSublayer:rightNeedleLayer];
             
             // Needle shadow
-            [rootNeedleLayer setShadowColor:[[UIColor blackColor] CGColor]];
-            [rootNeedleLayer setShadowOffset:CGSizeMake(0, 0)];
-            [rootNeedleLayer setShadowOpacity:0.5];
-            [rootNeedleLayer setShadowRadius:2.0];
+            if (_showNeedleShadow) {
+                [rootNeedleLayer setShadowColor:[[UIColor blackColor] CGColor]];
+                [rootNeedleLayer setShadowOffset:CGSizeMake(0, 0)];
+                [rootNeedleLayer setShadowOpacity:0.5];
+                [rootNeedleLayer setShadowRadius:2.0];
+            }
         }
         break;
             
@@ -493,15 +501,17 @@
 
             needleLayer.path = needlePath.CGPath;
             needleLayer.backgroundColor = [[UIColor clearColor] CGColor];
-            needleLayer.fillColor = CGRGB(255, 104, 97);
-            needleLayer.strokeColor = CGRGB(255, 104, 97);
+            needleLayer.fillColor = [_needleFillColor CGColor];
+            needleLayer.strokeColor = [_needleStrokeColor CGColor];
             needleLayer.lineWidth = 1.2;
             
             // Needle shadow
-            needleLayer.shadowColor = [[UIColor blackColor] CGColor];
-            needleLayer.shadowOffset = CGSizeMake(-2.0, -2.0);
-            needleLayer.shadowOpacity = 0.2;
-            needleLayer.shadowRadius = 1.2;
+            if (_showNeedleShadow) {
+                needleLayer.shadowColor = [[UIColor blackColor] CGColor];
+                needleLayer.shadowOffset = CGSizeMake(-2.0, -2.0);
+                needleLayer.shadowOpacity = 0.2;
+                needleLayer.shadowRadius = 1.2;
+            }
             
             [rootNeedleLayer addSublayer:needleLayer];
         }
@@ -531,10 +541,12 @@
             screwLayer.lineWidth = 1.5;
             
             // Screw shadow
-            screwLayer.shadowColor = [[UIColor blackColor] CGColor];
-            screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
-            screwLayer.shadowOpacity = 0.1;
-            screwLayer.shadowRadius = 2.0;
+            if (_showNeedleScrewShadow) {
+                screwLayer.shadowColor = [[UIColor blackColor] CGColor];
+                screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
+                screwLayer.shadowOpacity = 0.1;
+                screwLayer.shadowRadius = 2.0;
+            }
             
             [rootNeedleLayer addSublayer:screwLayer];
         }
@@ -547,13 +559,15 @@
             screwLayer.bounds = CGRectMake(FULL_SCALE(center.x - _needleScrewRadius, center.y - _needleScrewRadius), FULL_SCALE(_needleScrewRadius * 2.0, _needleScrewRadius * 2.0));
             screwLayer.position = CGPointMake(FULL_SCALE(center.x, center.y));
             screwLayer.path = [UIBezierPath bezierPathWithOvalInRect:screwLayer.bounds].CGPath;
-            screwLayer.fillColor = CGRGB(68, 84, 105);
+            screwLayer.fillColor = [_needleScrewColor CGColor];
             
             // Screw shadow
-            screwLayer.shadowColor = [[UIColor blackColor] CGColor];
-            screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
-            screwLayer.shadowOpacity = 0.2;
-            screwLayer.shadowRadius = 2.0;
+            if (_showNeedleScrewShadow) {
+                screwLayer.shadowColor = [[UIColor blackColor] CGColor];
+                screwLayer.shadowOffset = CGSizeMake(0.0, 0.0);
+                screwLayer.shadowOpacity = 0.2;
+                screwLayer.shadowRadius = 2.0;
+            }
             
             [rootNeedleLayer addSublayer:screwLayer];
         }
@@ -857,9 +871,33 @@
     [self invalidateNeedle];
 }
 
+- (void)setNeedleFillColor:(UIColor *)needleFillColor
+{
+    _needleFillColor = needleFillColor;
+    [self invalidateNeedle];
+}
+
+- (void)setNeedleStrokeColor:(UIColor *)needleStrokeColor
+{
+    _needleStrokeColor = needleStrokeColor;
+    [self invalidateNeedle];
+}
+
+- (void)setShowNeedleShadow:(bool)showNeedleShadow
+{
+    _showNeedleShadow = showNeedleShadow;
+    [self invalidateBackground];
+}
+
 - (void)setNeedleScrewRadius:(CGFloat)needleScrewRadius
 {
     _needleScrewRadius = needleScrewRadius;
+    [self invalidateNeedle];
+}
+
+- (void)setNeedleScrewColor:(UIColor *)needleScrewColor
+{
+    _needleScrewColor = needleScrewColor;
     [self invalidateNeedle];
 }
 
@@ -873,6 +911,12 @@
 {
     _needleScrewStyle = needleScrewStyle;
     [self invalidateNeedle];
+}
+
+- (void)setShowNeedleScrewShadow:(bool)showNeedleScrewShadow
+{
+    _showNeedleScrewShadow = showNeedleScrewShadow;
+    [self invalidateBackground];
 }
 
 - (void)setScalePosition:(CGFloat)scalePosition
