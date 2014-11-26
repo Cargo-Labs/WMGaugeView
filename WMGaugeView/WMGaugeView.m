@@ -100,6 +100,7 @@
     _scaleSubdivisions = 10.0;
     _showScaleShadow = YES;
     _showScale = YES;
+    _showScaleLabels = YES;
     _scalesubdivisionsAligment = WMGaugeViewSubdivisionsAlignmentTop;
     _scaleInset = 0.0;
     _scaleDivisionsLength = 0.045;
@@ -371,19 +372,21 @@
             CGContextAddLineToPoint(context, 0.5, y3);
             CGContextStrokePath(context);
             
-            // Draw label
-            NSString *valueString = [NSString stringWithFormat:@"%0.0f",value];
-            UIFont* font = _scaleFont ? _scaleFont : [UIFont fontWithName:@"Helvetica-Bold" size:0.05];
-            NSDictionary* stringAttrs = @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };
-            NSAttributedString* attrStr = [[NSAttributedString alloc] initWithString:valueString attributes:stringAttrs];
-            CGSize fontWidth;
-            if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-                fontWidth = [valueString sizeWithFont:font];
-            } else {
-                fontWidth = [valueString sizeWithAttributes:stringAttrs];
+            if (_showScaleLabels) {
+                // Draw label
+                NSString *valueString = [NSString stringWithFormat:@"%0.0f",value];
+                UIFont* font = _scaleFont ? _scaleFont : [UIFont fontWithName:@"Helvetica-Bold" size:0.05];
+                NSDictionary* stringAttrs = @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };
+                NSAttributedString* attrStr = [[NSAttributedString alloc] initWithString:valueString attributes:stringAttrs];
+                CGSize fontWidth;
+                if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+                    fontWidth = [valueString sizeWithFont:font];
+                } else {
+                    fontWidth = [valueString sizeWithAttributes:stringAttrs];
+                }
+                
+                [attrStr drawAtPoint:CGPointMake(0.5 - fontWidth.width / 2.0, y3 + 0.005)];
             }
-            
-            [attrStr drawAtPoint:CGPointMake(0.5 - fontWidth.width / 2.0, y3 + 0.005)];
         }
         // Subdivision
         else
@@ -958,6 +961,12 @@
 - (void)setShowScale:(bool)showScale
 {
     _showScale = showScale;
+    [self invalidateBackground];
+}
+
+- (void)setShowScaleLabels:(bool)showScaleLabels
+{
+    _showScaleLabels = showScaleLabels;
     [self invalidateBackground];
 }
 
