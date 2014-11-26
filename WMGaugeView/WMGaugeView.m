@@ -948,6 +948,9 @@
 
 - (void)setScaleSubdivisions:(CGFloat)scaleSubdivisions
 {
+    if (scaleSubdivisions == 0) {
+        scaleSubdivisions = 1;
+    }
     _scaleSubdivisions = scaleSubdivisions;
     [self invalidateBackground];
 }
