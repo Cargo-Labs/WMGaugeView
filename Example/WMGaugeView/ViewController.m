@@ -36,7 +36,6 @@
     _gaugeView.rangeLabelsFontColor = [UIColor blackColor];
     _gaugeView.rangeLabelsWidth = 0.04;
     _gaugeView.rangeLabelsFont = [UIFont fontWithName:@"Helvetica" size:0.04];
-    _gaugeView.showScale = YES;
     
     _gaugeView2.maxValue = 100.0;
     _gaugeView2.scaleDivisions = 10;
@@ -56,7 +55,6 @@
     _gaugeView2.needleHeight = 0.4;
     _gaugeView2.needleScrewStyle = WMGaugeViewNeedleScrewStylePlain;
     _gaugeView2.needleScrewRadius = 0.05;
-    _gaugeView2.showScale = YES;
     
     [NSTimer scheduledTimerWithTimeInterval:2.0
                                      target:self

@@ -91,6 +91,7 @@
     _scaleDivisions = 12.0;
     _scaleSubdivisions = 10.0;
     _showScaleShadow = YES;
+    _showScale = YES;
     _scalesubdivisionsAligment = WMGaugeViewSubdivisionsAlignmentTop;
     _scaleDivisionsLength = 0.045;
     _scaleDivisionsWidth = 0.01;
