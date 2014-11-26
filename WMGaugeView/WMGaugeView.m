@@ -78,6 +78,8 @@
     _innerRimWidth = 0.05;
     _innerRimBorderWidth = 0.005;
     _innerBackgroundStyle = WMGaugeViewInnerBackgroundStyleGradient;
+    _innerCircleFillColor = [UIColor colorWithCGColor:CGRGB(255, 104, 97)];
+    _externalCircleFillColor = [UIColor colorWithCGColor:CGRGB(242, 99, 92)];
     
     _needleWidth = 0.035;
     _needleHeight = 0.34;
@@ -279,12 +281,12 @@
             
             // External circle
             CGContextAddEllipseInRect(context, CGRectMake(center.x - EXTERNAL_RING_RADIUS, center.y - EXTERNAL_RING_RADIUS, EXTERNAL_RING_RADIUS * 2.0, EXTERNAL_RING_RADIUS * 2.0));
-            CGContextSetFillColorWithColor(context, CGRGB(255, 104, 97));
+            CGContextSetFillColorWithColor(context, [_externalCircleFillColor CGColor]);
             CGContextFillPath(context);
             
             // Inner circle
             CGContextAddEllipseInRect(context, CGRectMake(center.x - INTERNAL_RING_RADIUS, center.y - INTERNAL_RING_RADIUS, INTERNAL_RING_RADIUS * 2.0, INTERNAL_RING_RADIUS * 2.0));
-            CGContextSetFillColorWithColor(context, CGRGB(242, 99, 92));
+            CGContextSetFillColorWithColor(context, [_innerCircleFillColor CGColor]);
             CGContextFillPath(context);
         }
         break;
@@ -829,6 +831,18 @@
 {
     _innerBackgroundStyle = innerBackgroundStyle;
     [self invalidateBackground];
+}
+
+- (void)setInnerCircleFillColor:(UIColor *)innerCircleFillColor
+{
+    _innerCircleFillColor = innerCircleFillColor;
+    [self invalidateNeedle];
+}
+
+- (void)setExternalCircleFillColor:(UIColor *)outerCircleFillColor
+{
+    _externalCircleFillColor = outerCircleFillColor;
+    [self invalidateNeedle];
 }
 
 - (void)setNeedleWidth:(CGFloat)needleWidth

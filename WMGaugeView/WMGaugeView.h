@@ -53,6 +53,8 @@ WMGaugeViewInnerBackgroundStyle;
 @property (nonatomic, readwrite, assign) CGFloat innerRimWidth;
 @property (nonatomic, readwrite, assign) CGFloat innerRimBorderWidth;
 @property (nonatomic, readwrite, assign) WMGaugeViewInnerBackgroundStyle innerBackgroundStyle;
+@property (nonatomic, readwrite, strong) UIColor *innerCircleFillColor;
+@property (nonatomic, readwrite, strong) UIColor *externalCircleFillColor;
 @property (nonatomic, readwrite, assign) CGFloat needleWidth;
 @property (nonatomic, readwrite, assign) CGFloat needleHeight;
 @property (nonatomic, readwrite, assign) CGFloat needleScrewRadius;
