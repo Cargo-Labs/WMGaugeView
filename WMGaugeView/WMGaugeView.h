@@ -35,7 +35,8 @@ WMGaugeViewNeedleScrewStyle;
 typedef enum
 {
     WMGaugeViewInnerBackgroundStyleGradient,
-    WMGaugeViewInnerBackgroundStyleFlat
+    WMGaugeViewInnerBackgroundStyleFlat,
+    WMGaugeViewInnerBackgroundStyleRing,
 }
 WMGaugeViewInnerBackgroundStyle;
 
@@ -69,6 +70,7 @@ WMGaugeViewInnerBackgroundStyle;
 @property (nonatomic, readwrite, assign) CGFloat scaleDivisionsWidth;
 @property (nonatomic, readwrite, assign) CGFloat scaleSubdivisionsLength;
 @property (nonatomic, readwrite, assign) CGFloat scaleSubdivisionsWidth;
+@property (nonatomic, readwrite, assign) CGFloat scaleInset;
 @property (nonatomic, readwrite, strong) UIColor *scaleDivisionColor;
 @property (nonatomic, readwrite, strong) UIColor *scaleSubDivisionColor;
 @property (nonatomic, readwrite, strong) UIFont *scaleFont;
@@ -88,6 +90,8 @@ WMGaugeViewInnerBackgroundStyle;
 @property (nonatomic, readwrite, strong) UIFont *unitOfMeasurementFont;
 @property (nonatomic, readwrite, strong) NSString *unitOfMeasurement;
 @property (nonatomic, readwrite, assign) bool showUnitOfMeasurement;
+@property (nonatomic, readwrite, assign) CGFloat ringWidth;
+@property (nonatomic, readwrite, strong) UIColor *ringColor;
 
 /**
  * WMGaugeView public functions

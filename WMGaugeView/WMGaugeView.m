@@ -93,10 +93,14 @@
     _showScaleShadow = YES;
     _showScale = YES;
     _scalesubdivisionsAligment = WMGaugeViewSubdivisionsAlignmentTop;
+    _scaleInset = 0.0;
     _scaleDivisionsLength = 0.045;
     _scaleDivisionsWidth = 0.01;
     _scaleSubdivisionsLength = 0.015;
     _scaleSubdivisionsWidth = 0.01;
+    
+    _ringWidth = 0.05;
+    _ringColor = [UIColor blackColor];
     
     _value = 0.0;
     _minValue = 0.0;
@@ -285,6 +289,18 @@
         }
         break;
             
+        case WMGaugeViewInnerBackgroundStyleRing:
+        {
+            // Ring
+            UIBezierPath *path = [UIBezierPath bezierPath];
+            [path addArcWithCenter:center radius:0.5 - _ringWidth startAngle:DEGREES_TO_RADIANS(0) endAngle:DEGREES_TO_RADIANS(360) clockwise:YES];
+            
+            [_ringColor setStroke];
+            path.lineWidth = _ringWidth;
+            [path stroke];
+        }
+        break;
+            
         default:
         break;
     }
@@ -325,7 +341,7 @@
         if (_scalesubdivisionsAligment == WMGaugeViewSubdivisionsAlignmentCenter) offset = (_scaleDivisionsLength - _scaleSubdivisionsLength) / 2.0;
         if (_scalesubdivisionsAligment == WMGaugeViewSubdivisionsAlignmentBottom) offset = _scaleDivisionsLength - _scaleSubdivisionsLength;
         
-        CGFloat y1 = scaleRect.origin.y;
+        CGFloat y1 = scaleRect.origin.y + _scaleInset;
         CGFloat y2 = y1 + _scaleSubdivisionsLength;
         CGFloat y3 = y1 + _scaleDivisionsLength;
         
@@ -893,6 +909,12 @@
     [self invalidateBackground];
 }
 
+- (void)setScaleInset:(CGFloat)scaleInset
+{
+    _scaleInset = scaleInset;
+    [self invalidateBackground];
+}
+
 - (void)setScaleDivisionsLength:(CGFloat)scaleDivisionsLength
 {
     _scaleDivisionsLength = scaleDivisionsLength;
@@ -1024,5 +1046,19 @@
     _rangeLabelsFontColor = rangeLabelsFontColor;
     [self invalidateBackground];
 }
+
+- (void)setRingColor:(UIColor *)ringColor
+{
+    _ringColor = ringColor;
+    [self invalidateBackground];
+}
+
+- (void)setRingWidth:(CGFloat)ringWidth
+{
+    _ringWidth = ringWidth;
+    [self invalidateBackground];
+}
+
+
 
 @end
