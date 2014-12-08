@@ -281,6 +281,15 @@
         }
         break;
         
+        case WMGaugeViewInnerBackgroundStyleNoGradient:
+        {
+            // Single circle
+            CGContextAddEllipseInRect(context, CGRectMake(center.x - 0.5, center.y - 0.5, 1, 1));
+            CGContextSetFillColorWithColor(context, [_innerCircleFillColor CGColor]);
+            CGContextFillPath(context);
+        }
+            break;
+            
         case WMGaugeViewInnerBackgroundStyleFlat:
         {
             #define EXTERNAL_RING_RADIUS    0.24
