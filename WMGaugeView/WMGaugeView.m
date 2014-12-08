@@ -520,6 +520,9 @@
         }
         break;
             
+        case WMGaugeViewNeedleStyleNone:
+            break;
+            
         default:
         break;
     }
@@ -575,6 +578,9 @@
             [rootNeedleLayer addSublayer:screwLayer];
         }
         break;
+            
+        case WMGaugeViewNeedleScrewStyleNone:
+            break;
             
         default:
         break;
@@ -783,24 +789,31 @@
     double lastValue = _value;
     
     [self updateValue:value];
-    double middleValue = lastValue + (((lastValue + (_value - lastValue) / 2.0) >= 0) ? (_value - lastValue) / 2.0 : (lastValue - _value) / 2.0);
     
-    // Needle animation to target value
-    // An intermediate "middle" value is used to make sure the needle will follow the right rotation direction
+    if (lastValue != value) {
+        [self invalidateBackground];
+    }
     
-    CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    animation.removedOnCompletion = YES;
-    animation.duration = animated ? duration : 0.0;
-    animation.delegate = self;
-    animation.values = [NSArray arrayWithObjects:
-                        [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:lastValue]  , 0, 0, 1.0)],
-                        [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:middleValue], 0, 0, 1.0)],
-                        [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:_value]     , 0, 0, 1.0)],
-                        nil];
-    
-    rootNeedleLayer.transform = [[animation.values lastObject] CATransform3DValue];
-    [rootNeedleLayer addAnimation:animation forKey:kCATransition];
+    if (_needleStyle != WMGaugeViewNeedleStyleNone) {
+        double middleValue = lastValue + (((lastValue + (_value - lastValue) / 2.0) >= 0) ? (_value - lastValue) / 2.0 : (lastValue - _value) / 2.0);
+        
+        // Needle animation to target value
+        // An intermediate "middle" value is used to make sure the needle will follow the right rotation direction
+        
+        CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        animation.removedOnCompletion = YES;
+        animation.duration = animated ? duration : 0.0;
+        animation.delegate = self;
+        animation.values = [NSArray arrayWithObjects:
+                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:lastValue]  , 0, 0, 1.0)],
+                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:middleValue], 0, 0, 1.0)],
+                            [NSValue valueWithCATransform3D:CATransform3DMakeRotation([self needleAngleForValue:_value]     , 0, 0, 1.0)],
+                            nil];
+        
+        rootNeedleLayer.transform = [[animation.values lastObject] CATransform3DValue];
+        [rootNeedleLayer addAnimation:animation forKey:kCATransition];
+    }
 }
 
 #pragma mark - CAAnimation delegate

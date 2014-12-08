@@ -21,14 +21,16 @@ WMGaugeViewSubdivisionsAlignment;
 typedef enum
 {
     WMGaugeViewNeedleStyle3D,
-    WMGaugeViewNeedleStyleFlatThin
+    WMGaugeViewNeedleStyleFlatThin,
+    WMGaugeViewNeedleStyleNone,
 }
 WMGaugeViewNeedleStyle;
 
 typedef enum
 {
     WMGaugeViewNeedleScrewStyleGradient,
-    WMGaugeViewNeedleScrewStylePlain
+    WMGaugeViewNeedleScrewStylePlain,
+    WMGaugeViewNeedleScrewStyleNone,
 }
 WMGaugeViewNeedleScrewStyle;
 
