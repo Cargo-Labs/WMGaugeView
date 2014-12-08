@@ -138,6 +138,13 @@
     _unitOfMeasurement = @"";
     _showUnitOfMeasurement = NO;
     
+    _measurementVerticalOffset = 0.4;
+    _measurementHorizontalOffset = 0.5;
+    _measurementColor = [UIColor whiteColor];
+    _measurementFont = [UIFont fontWithName:@"Helvetica" size:0.06];
+    _measurementFormat = nil;
+    _showMeasurement = NO;
+    
     animationCompletion = nil;
 
     [self initDrawingRects];
@@ -229,9 +236,13 @@
     if (_showInnerBackground)
         [self drawFace:context];
 
+    if (_showMeasurement) {
+        [self drawMeasurement:context];
+    }
+    
     if (_showUnitOfMeasurement)
-        [self drawText:context];
-
+        [self drawUnitOfMeasurement:context];
+    
     if (_showScale)
         [self drawScale:context];
 
@@ -326,9 +337,33 @@
 }
 
 /**
+ *  Measurement drawing
+ */
+- (void)drawMeasurement:(CGContextRef)context {
+    UIFont* font = _measurementFont ? _measurementFont : [UIFont fontWithName:@"Helvetica" size:0.05];
+    UIColor* color = _measurementColor ? _measurementColor : [UIColor whiteColor];
+    NSDictionary* stringAttrs = @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };
+    NSString *measurement;
+    if (_measurementFormat) {
+        measurement = [NSString stringWithFormat:_measurementFormat, _value];
+    } else {
+        measurement = [NSString stringWithFormat:@"%.0f", _value];
+    }
+    NSAttributedString* attrStr = [[NSAttributedString alloc] initWithString:measurement attributes:stringAttrs];
+    CGSize fontWidth;
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        fontWidth = [measurement sizeWithFont:font];
+    } else {
+        fontWidth = [measurement sizeWithAttributes:stringAttrs];
+    }
+    
+    [attrStr drawAtPoint:CGPointMake(_measurementHorizontalOffset - fontWidth.width / 2.0, _measurementVerticalOffset)];
+}
+
+/**
  *  Unit of measurement drawing
  */
-- (void)drawText:(CGContextRef)context
+- (void)drawUnitOfMeasurement:(CGContextRef)context
 {
     CGContextSetShadow(context, CGSizeMake(0.05, 0.05), 2.0);
     UIFont* font = _unitOfMeasurementFont ? _unitOfMeasurementFont : [UIFont fontWithName:@"Helvetica" size:0.04];
@@ -342,7 +377,6 @@
         fontWidth = [_unitOfMeasurement sizeWithAttributes:stringAttrs];
     }
 
-    [attrStr drawAtPoint:CGPointMake(0.5 - fontWidth.width / 2.0, _unitOfMeasurementVerticalOffset)];
     [attrStr drawAtPoint:CGPointMake(_unitOfMeasurementHorizontalOffset - fontWidth.width / 2.0, _unitOfMeasurementVerticalOffset)];
 }
 
@@ -1099,6 +1133,12 @@
     [self invalidateBackground];
 }
 
+- (void)setShowMeasurement:(bool)showMeasurement
+{
+    _showMeasurement = showMeasurement;
+    [self invalidateBackground];
+}
+
 - (void)setShowRangeLabels:(bool)showRangeLabels
 {
     _showRangeLabels = showRangeLabels;
@@ -1114,6 +1154,12 @@
 - (void)setUnitOfMeasurementFont:(UIFont *)unitOfMeasurementFont
 {
     _unitOfMeasurementFont = unitOfMeasurementFont;
+    [self invalidateBackground];
+}
+
+- (void)setMeasurementFont:(UIFont *)measurementFont
+{
+    _measurementFont = measurementFont;
     [self invalidateBackground];
 }
 
@@ -1135,9 +1181,33 @@
     [self invalidateBackground];
 }
 
+- (void)setMeasurementVerticalOffset:(CGFloat)measurementVerticalOffset
+{
+    _measurementVerticalOffset = measurementVerticalOffset;
+    [self invalidateBackground];
+}
+
+- (void)setMeasurementHorizontalOffset:(CGFloat)measurementHorizontalOffset
+{
+    _measurementHorizontalOffset = measurementHorizontalOffset;
+    [self invalidateBackground];
+}
+
 - (void)setUnitOfMeasurementColor:(UIColor *)unitOfMeasurementColor
 {
     _unitOfMeasurementColor = unitOfMeasurementColor;
+    [self invalidateBackground];
+}
+
+- (void)setMeasurementColor:(UIColor *)measurementColor
+{
+    _measurementColor = measurementColor;
+    [self invalidateBackground];
+}
+
+- (void)setMeasurementFormat:(NSString *)measurementFormat
+{
+    _measurementFormat = measurementFormat;
     [self invalidateBackground];
 }
 

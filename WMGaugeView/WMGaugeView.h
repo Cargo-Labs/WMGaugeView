@@ -102,6 +102,12 @@ WMGaugeViewInnerBackgroundStyle;
 @property (nonatomic, readwrite, strong) UIFont *unitOfMeasurementFont;
 @property (nonatomic, readwrite, strong) NSString *unitOfMeasurement;
 @property (nonatomic, readwrite, assign) bool showUnitOfMeasurement;
+@property (nonatomic, readwrite, strong) UIColor *measurementColor;
+@property (nonatomic, readwrite, assign) CGFloat measurementVerticalOffset;
+@property (nonatomic, readwrite, assign) CGFloat measurementHorizontalOffset;
+@property (nonatomic, readwrite, strong) UIFont *measurementFont;
+@property (nonatomic, readwrite, strong) NSString *measurementFormat;
+@property (nonatomic, readwrite, assign) bool showMeasurement;
 @property (nonatomic, readwrite, assign) CGFloat ringWidth;
 @property (nonatomic, readwrite, strong) UIColor *ringColor;
 
