@@ -98,6 +98,7 @@ WMGaugeViewInnerBackgroundStyle;
 @property (nonatomic, readwrite, strong) NSArray *rangeLabels;
 @property (nonatomic, readwrite, strong) UIColor *unitOfMeasurementColor;
 @property (nonatomic, readwrite, assign) CGFloat unitOfMeasurementVerticalOffset;
+@property (nonatomic, readwrite, assign) CGFloat unitOfMeasurementHorizontalOffset;
 @property (nonatomic, readwrite, strong) UIFont *unitOfMeasurementFont;
 @property (nonatomic, readwrite, strong) NSString *unitOfMeasurement;
 @property (nonatomic, readwrite, assign) bool showUnitOfMeasurement;

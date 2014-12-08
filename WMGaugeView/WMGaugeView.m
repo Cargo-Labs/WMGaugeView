@@ -132,6 +132,7 @@
     _scaleFont = nil;
     
     _unitOfMeasurementVerticalOffset = 0.6;
+    _unitOfMeasurementHorizontalOffset = 0.5;
     _unitOfMeasurementColor = [UIColor whiteColor];
     _unitOfMeasurementFont = [UIFont fontWithName:@"Helvetica" size:0.04];
     _unitOfMeasurement = @"";
@@ -342,6 +343,7 @@
     }
 
     [attrStr drawAtPoint:CGPointMake(0.5 - fontWidth.width / 2.0, _unitOfMeasurementVerticalOffset)];
+    [attrStr drawAtPoint:CGPointMake(_unitOfMeasurementHorizontalOffset - fontWidth.width / 2.0, _unitOfMeasurementVerticalOffset)];
 }
 
 /**
@@ -1124,6 +1126,12 @@
 - (void)setUnitOfMeasurementVerticalOffset:(CGFloat)unitOfMeasurementVerticalOffset
 {
     _unitOfMeasurementVerticalOffset = unitOfMeasurementVerticalOffset;
+    [self invalidateBackground];
+}
+
+- (void)setUnitOfMeasurementHorizontalOffset:(CGFloat)unitOfMeasurementHorizontalOffset
+{
+    _unitOfMeasurementHorizontalOffset = unitOfMeasurementHorizontalOffset;
     [self invalidateBackground];
 }
 
