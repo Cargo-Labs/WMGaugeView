@@ -173,8 +173,8 @@
                           innerRimRect.size.height - 2 * _innerRimWidth);
     rangeLabelsRect = CGRectMake(faceRect.origin.x + (_showRangeLabels ? _rangeLabelsWidth : 0.0),
                                  faceRect.origin.y + (_showRangeLabels ? _rangeLabelsWidth : 0.0),
-                                 faceRect.size.width - 2 * (_showRangeLabels ? _rangeLabelsWidth : 0.0),
-                                 faceRect.size.height - 2 * (_showRangeLabels ? _rangeLabelsWidth : 0.0));
+                                 faceRect.size.width - (_showRangeLabels ? _rangeLabelsWidth : 0.0),
+                                 faceRect.size.height -  (_showRangeLabels ? _rangeLabelsWidth : 0.0));
     scaleRect = CGRectMake(rangeLabelsRect.origin.x + _scalePosition,
                            rangeLabelsRect.origin.y + _scalePosition,
                            rangeLabelsRect.size.width - 2 * _scalePosition,
@@ -340,6 +340,7 @@
  *  Measurement drawing
  */
 - (void)drawMeasurement:(CGContextRef)context {
+    //    CGContextSetShadow(context, CGSizeMake(0.05, 0.05), 2.0);
     UIFont* font = _measurementFont ? _measurementFont : [UIFont fontWithName:@"Helvetica" size:0.05];
     UIColor* color = _measurementColor ? _measurementColor : [UIColor whiteColor];
     NSDictionary* stringAttrs = @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };
@@ -365,7 +366,7 @@
  */
 - (void)drawUnitOfMeasurement:(CGContextRef)context
 {
-    CGContextSetShadow(context, CGSizeMake(0.05, 0.05), 2.0);
+    //CGContextSetShadow(context, CGSizeMake(0.05, 0.05), 2.0);
     UIFont* font = _unitOfMeasurementFont ? _unitOfMeasurementFont : [UIFont fontWithName:@"Helvetica" size:0.04];
     UIColor* color = _unitOfMeasurementColor ? _unitOfMeasurementColor : [UIColor whiteColor];
     NSDictionary* stringAttrs = @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };
@@ -475,7 +476,7 @@
         
         // Range curved shape
         UIBezierPath *path = [UIBezierPath bezierPath];
-        [path addArcWithCenter:center radius:rangeLabelsRect.size.width / 2.0 startAngle:DEGREES_TO_RADIANS(lastStartAngle) endAngle:DEGREES_TO_RADIANS(valueAngle) - 0.01 clockwise:YES];
+        [path addArcWithCenter:center radius:rangeLabelsRect.size.width / 2.0 startAngle:DEGREES_TO_RADIANS(lastStartAngle) endAngle:DEGREES_TO_RADIANS(valueAngle) - 0.001 clockwise:YES];
         
         UIColor *color = _rangeColors[i];
         [color setStroke];
